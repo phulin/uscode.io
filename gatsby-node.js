@@ -70,9 +70,9 @@ class Visitor {
     const identifier = group.attr(`identifier`).value();
     const level = group.name();
 
-    const slug = breadcrumbs.map(bc =>
-      `/${bc.level}-${bc.number}`
-    ).join(``) + `/${level}-${number}`;
+    const slug =
+      breadcrumbs.map(bc => `/${bc.level}-${bc.number}`).join(``) +
+      `/${level}-${number}`;
 
     const node = {
       identifier,
@@ -80,7 +80,7 @@ class Visitor {
       number,
       heading,
       notes: [],
-      breadcrumbs: breadcrumbs.map(bc => bc.id),
+      breadcrumbs: breadcrumbs.map(bc => bc),
       slug: slug,
       id: this.createNodeId(`${parent.id} >>> ${slug}`),
       parent: parent.id,
@@ -125,7 +125,9 @@ class Visitor {
       number,
       heading,
       notes: [],
-      breadcrumbs: breadcrumbs.map(bc => bc.id),
+      breadcrumbs: breadcrumbs.map(bc => bc),
+      shortSlug: `/${this.title}/${number}`,
+      slug: `${parent.slug}/section-${number}`,
       id: this.createNodeId(`${parent.id} >>> Section ${number}`),
       parent: parent.id,
       children: [],
@@ -159,4 +161,42 @@ exports.onCreateNode = async function({
 
   const visitor = new Visitor(actions, createNodeId, createContentDigest);
   visitor.visit(node, doc);
+};
+
+exports.createPages = async function({ graphql, actions }) {
+  const { createPage } = actions;
+
+  const template = path.resolve(__dirname, `src/templates/section_group.js`);
+
+  const result = await graphql(`
+    {
+      allUscSectionGroup {
+        nodes {
+          level
+          number
+          heading
+          breadcrumbs {
+            level
+            number
+          }
+          slug
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    console.error(result.errors);
+    return;
+  }
+
+  result.data.allUscSectionGroup.nodes.forEach(node => {
+    createPage({
+      path: node.slug,
+      component: template,
+      context: {
+        slug: node.slug,
+      },
+    });
+  });
 };
