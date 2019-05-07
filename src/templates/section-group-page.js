@@ -1,67 +1,68 @@
-import React from "react"; // eslint-disable-line no-unused-vars
+import React from "react";
+import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 
-const SectionOrGroup = ({ contents }) => {
-  return contents.children ? <>
-    <h1>{contents.level} {contents.number}: {contents.heading}</h1>
-    <ul>
-      {contents.children.map((child, i) => (
-        <li key={i}>
-          <SectionOrGroup contents={child} />
-        </li>
-      ))}
-    </ul>
-  </> : (
-    <h2>Section {contents.number}: {contents.heading}</h2>
-  );
-}
+import Layout from "../components/layout";
+import SectionOrGroup from "../components/section-or-group";
 
-export default ({ data }) => <SectionOrGroup contents={data.group} />;
+const SectionGroupPage = ({ data }) => (
+  <Layout>
+    <SectionOrGroup {...data.group} />
+  </Layout>
+);
+
+SectionGroupPage.propTypes = {
+  data: PropTypes.object,
+  "data.group": PropTypes.object,
+};
+
+export default SectionGroupPage;
 
 export const query = graphql`
   fragment sectionSlug on USCSection {
     __typename
-    slug
+    shortSlug
     heading
     number
   }
 
   fragment sectionGroupSlug on USCSectionGroup {
     __typename
+    slug
     level
     number
     heading
   }
 
-  query($slug: String!) {
-    group: uscSectionGroup(slug: { eq: $slug }) {
+  query($sectionGroup: String!) {
+    group: uscSectionGroup(id: { eq: $sectionGroup }) {
       ...sectionGroupSlug
       breadcrumbs {
         heading
         level
         number
       }
-      children {
+      childNodes: children {
         ...sectionSlug
         ...sectionGroupSlug
         ... on USCSectionGroup {
-          children {
+          childNodes: children {
             ...sectionSlug
             ...sectionGroupSlug
             ... on USCSectionGroup {
-              children {
+              childNodes: children {
                 ...sectionSlug
                 ...sectionGroupSlug
                 ... on USCSectionGroup {
-                  children {
+                  childNodes: children {
                     ...sectionSlug
                     ...sectionGroupSlug
                     ... on USCSectionGroup {
-                      children {
+                      childNodes: children {
                         ...sectionSlug
                         ...sectionGroupSlug
                         ... on USCSectionGroup {
-                          children {
+                          childNodes: children {
                             ...sectionSlug
                             ...sectionGroupSlug
                           }

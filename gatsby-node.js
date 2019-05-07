@@ -166,36 +166,65 @@ exports.onCreateNode = async function({
 exports.createPages = async function({ graphql, actions }) {
   const { createPage } = actions;
 
-  const template = path.resolve(__dirname, `src/templates/section_group.js`);
+  const sectionGroupPage = path.resolve(__dirname, `src/templates/section-group-page.js`);
+  const sectionPage = path.resolve(__dirname, `src/templates/section-page.js`);
 
-  const result = await graphql(`
+  const sectionGroups = await graphql(`
     {
       allUscSectionGroup {
         nodes {
-          level
-          number
-          heading
-          breadcrumbs {
-            level
-            number
-          }
+          id
           slug
         }
       }
     }
   `);
 
-  if (result.errors) {
-    console.error(result.errors);
+  if (sectionGroups.errors) {
+    console.error(sectionGroups.errors);
     return;
   }
 
-  result.data.allUscSectionGroup.nodes.forEach(node => {
+  sectionGroups.data.allUscSectionGroup.nodes.forEach(node => {
     createPage({
       path: node.slug,
-      component: template,
+      component: sectionGroupPage,
       context: {
-        slug: node.slug,
+        sectionGroup: node.id,
+      },
+    });
+  });
+
+  const sections = await graphql(`
+    {
+      allUscSection {
+        nodes {
+          id
+          slug
+          shortSlug
+        }
+      }
+    }
+  `);
+
+  if (sections.errors) {
+    console.error(sections.errors);
+    return;
+  }
+
+  sections.data.allUscSection.nodes.forEach(node => {
+    createPage({
+      path: node.slug,
+      component: sectionPage,
+      context: {
+        section: node.id,
+      },
+    });
+    createPage({
+      path: node.shortSlug,
+      component: sectionPage,
+      context: {
+        section: node.id,
       },
     });
   });
