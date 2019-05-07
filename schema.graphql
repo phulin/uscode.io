@@ -1,0 +1,23 @@
+type USCFile implements Node {
+  publicationName: String!
+  title: USCSectionGroup!
+}
+
+type USCSectionGroup implements Node {
+  identifier: String!
+  level: String!
+  number: String!
+  heading: String!
+  notes: [String!]!
+  breadcrumbs: [USCSectionGroup!]!
+  slug: String!
+}
+
+type USCSection implements Node {
+  identifier: String!
+  title: String!
+  number: String!
+  heading: String!
+  notes: [String!]!
+  breadcrumbs: [USCSectionGroup!]!
+}

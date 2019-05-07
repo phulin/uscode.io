@@ -13,11 +13,13 @@
     "gatsby-plugin-sharp": "^2.0.36",
     "gatsby-source-filesystem": "^2.0.33",
     "gatsby-transformer-sharp": "^2.1.19",
-    "gatsby-transformer-xml": "^2.0.9",
+    "gatsby-transformer-xml": "file:../gatsby/packages/gatsby-transformer-xml",
+    "libxmljs": "^0.19.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "prettier": "^1.17.0"
