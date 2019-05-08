@@ -24,10 +24,12 @@ export const query = graphql`
       shortSlug
       heading
       number
+      contentsString: contents
       breadcrumbs {
         heading
-        level
+        humanLevel
         number
+        slug
       }
     }
   }

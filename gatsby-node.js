@@ -15,7 +15,7 @@ exports.sourceNodes = async function({ actions }) {
 };
 
 const NS = { uslm: `http://xml.house.gov/schemas/uslm/1.0` };
-const levels = [
+const groupLevels = [
   `title`,
   `subtitle`,
   `part`,
@@ -27,6 +27,65 @@ const levels = [
   `article`,
   `subarticle`,
 ];
+
+Object.fromEntries = iterable =>
+  [...iterable].reduce(
+    (obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }),
+    {}
+  );
+
+function usml2json(node) {
+  const type = node.type();
+  if (type === `text`) {
+    return {
+      type: `text`,
+      text: node.text(),
+    };
+  } else if (type === `element`) {
+    const allChildren = node.childNodes().map(child => usml2json(child));
+
+    // Remove all empty text nodes.
+    const nonemptyChildren = allChildren.filter(
+      child => child.type !== `text` || child.text.trim() !== ``
+    );
+
+    // Remove nodes like num/heading/notes.
+    const nonContentTags = [`num`, `heading`, `notes`, `sourceCredit`];
+    const children = nonemptyChildren.filter(
+      child => child.type !== `element` || !nonContentTags.includes(child.name)
+    );
+
+    const result = {
+      type: `element`,
+      name: node.name(),
+      childNodes: children,
+      attributes: Object.fromEntries(
+        node.attrs().map(attr => [attr.name(), attr.value()])
+      ),
+    };
+
+    if (children.length === 1 && children[0].type === 'text') {
+      result.text = children[0].text;
+    }
+
+    const elements = nonemptyChildren.filter(child => child.type === `element`);
+    const grouped = new Map();
+    for (const node of elements) {
+      grouped.set(node.name, [...(grouped[node.name] || []), node]);
+    }
+    for (const [name, nodes] of grouped) {
+      if (
+        nodes.length > 0 && nonContentTags.includes(name)
+      ) {
+        result[name] = nodes[0];
+      }
+    }
+
+    return result;
+  } else {
+    return { type: `error`, error: `Unrecognized node type.` };
+  }
+}
 
 class Visitor {
   constructor(actions, createNodeId, createContentDigest) {
@@ -69,6 +128,7 @@ class Visitor {
     const heading = this.getHeading(group);
     const identifier = group.attr(`identifier`).value();
     const level = group.name();
+    const humanLevel = `${level.charAt(0).toUpperCase()}${level.slice(1)}`;
 
     const slug =
       breadcrumbs.map(bc => `/${bc.level}-${bc.number}`).join(``) +
@@ -77,6 +137,7 @@ class Visitor {
     const node = {
       identifier,
       level,
+      humanLevel,
       number,
       heading,
       notes: [],
@@ -96,7 +157,7 @@ class Visitor {
 
     const newBreadcrumbs = [...breadcrumbs, node];
 
-    const sections = levels
+    const sections = groupLevels
       .map(level =>
         group
           .find(`./uslm:${level}`, NS)
@@ -119,6 +180,8 @@ class Visitor {
     const heading = this.getHeading(section);
     const identifier = section.attr(`identifier`).value();
 
+    const xml = section.toString();
+
     const node = {
       identifier,
       title: this.title,
@@ -128,11 +191,13 @@ class Visitor {
       breadcrumbs: breadcrumbs.map(bc => bc),
       shortSlug: `/${this.title}/${number}`,
       slug: `${parent.slug}/section-${number}`,
+      xml,
+      contents: JSON.stringify(usml2json(section)),
       id: this.createNodeId(`${parent.id} >>> Section ${number}`),
       parent: parent.id,
       children: [],
       internal: {
-        contentDigest: this.createContentDigest(section.toString()),
+        contentDigest: this.createContentDigest(xml),
         type: `USCSection`,
       },
     };
@@ -166,7 +231,10 @@ exports.onCreateNode = async function({
 exports.createPages = async function({ graphql, actions }) {
   const { createPage } = actions;
 
-  const sectionGroupPage = path.resolve(__dirname, `src/templates/section-group-page.js`);
+  const sectionGroupPage = path.resolve(
+    __dirname,
+    `src/templates/section-group-page.js`
+  );
   const sectionPage = path.resolve(__dirname, `src/templates/section-page.js`);
 
   const sectionGroups = await graphql(`
