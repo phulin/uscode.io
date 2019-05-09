@@ -68,7 +68,7 @@ const Content = ({ node }) => {
 
   const childContent = groupedChildren.map((child, i) =>
     Array.isArray(child) ? (
-      <OrderedList>
+      <OrderedList key={i}>
         {child.map((child2, j) => (
           <Content node={child2} key={j} />
         ))}

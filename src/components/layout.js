@@ -16,13 +16,6 @@ import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "typeface-open-sans";
 
-const OuterContainer = styled.div({
-  margin: `0 auto`,
-  maxWidth: 960,
-  padding: `0px 1.0875rem 1.45rem`,
-  paddingTop: 0,
-});
-
 const Layout = ({ children }) => (
   <>
     <Global
@@ -56,7 +49,6 @@ Layout.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default Layout;
