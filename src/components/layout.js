@@ -35,8 +35,10 @@ const Layout = ({ children }) => (
     <Container>
       <main>{children}</main>
       <footer style={{ marginTop: `2rem`, color: `gray` }}>
-        HTML layout © {new Date().getFullYear()} Patrick Hulin.
-        Derived from data provided by the <a href="http://uscode.house.gov/">US House Office of the Law Revision Counsel</a>;
+        <a href="https://github.com/phulin/uscode.io">HTML layout</a>
+        © {new Date().getFullYear()} Patrick Hulin.
+        Derived from data provided by the
+        <a href="http://uscode.house.gov/">US House Office of the Law Revision Counsel</a>;
         all content should be in the public domain.
       </footer>
     </Container>
