@@ -1,16 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
 import Breadcrumbs from "./breadcrumbs";
 import OrderedList from "./ordered-list";
 
+const SectionContext = React.createContext({});
+
 const Chapeau = styled.div({
   display: `inline-block`,
   marginBottom: `0.5rem`,
 });
-
 
 const textLevels = new Set([
   `subsection`,
@@ -28,7 +30,6 @@ const tagMap = new Map(
     p: `p`,
     note: `p`,
     chapeau: Chapeau,
-    ref: `span`,
     date: `span`,
     content: `span`,
   })
@@ -82,16 +83,37 @@ const Content = ({ node }) => {
     const Tag = tagMap.get(node.name);
     const style = hiddenTags.has(node.name) ? { display: `none` } : {};
     return (
-      <Tag className={`${node.name} ${node.attributes.class || ``}`} style={style}>
+      <Tag
+        className={`${node.name} ${node.attributes.class || ``}`}
+        style={style}
+      >
         {childContent}
       </Tag>
     );
+  } else if (node.name === `ref` && node.attributes.href) {
+    const href = node.attributes.href;
+    const match = href.match(/\/us\/usc\/t([0-9]+)\/s([0-9a-zA-Z\-.]+)\/(.*)/);
+    if (!match) {
+      return <>{childContent}</>;
+    }
+
+    const [title, section, anchor] = match.slice(1);
+    const link = `/${title}/${section}/#${anchor}`;
+    return <Link to={link}>{childContent}</Link>;
   } else if (textLevels.has(node.name)) {
+    let identifier = node.attributes.identifier;
     return (
-      <OrderedList.Item seq={node.num.text}>
-        {node.heading ? <span>{node.heading.text}</span> : <></>}
-        {childContent}
-      </OrderedList.Item>
+      <>
+        <SectionContext.Consumer>
+          {({ title, section }) => (
+            <a name={identifier.replace(`/us/usc/t${title}/s${section}/`, ``)} />
+          )}
+        </SectionContext.Consumer>
+        <OrderedList.Item seq={node.num.text}>
+          {node.heading ? <span>{node.heading.text}</span> : <></>}
+          {childContent}
+        </OrderedList.Item>
+      </>
     );
   } else {
     return <>{childContent}</>;
@@ -99,24 +121,30 @@ const Content = ({ node }) => {
 };
 
 Content.propTypes = {
-  node: PropTypes.object,
-  "node.type": PropTypes.string,
-  "node.text": PropTypes.string,
-  "node.childNodes": PropTypes.array,
+  node: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    childNodes: PropTypes.array,
+  }),
 };
 
 const Section = ({ breadcrumbs, contentsString }) => {
   const contents = JSON.parse(contentsString);
+  const sectionNumber = contents.num.attributes.value;
   const currentBreadcrumb = {
     humanLevel: `Section`,
-    number: contents.num.attributes.value,
+    number: sectionNumber
   };
   return (
-    <>
-      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb}/>
-      <h1>{contents.num.text} {contents.heading.text}</h1>
+    <SectionContext.Provider
+      value={{ title: breadcrumbs[0].number, section: sectionNumber }}
+    >
+      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
+      <h2>
+        {contents.num.text} {contents.heading.text}
+      </h2>
       <Content node={contents} />
-    </>
+    </SectionContext.Provider>
   );
 };
 
