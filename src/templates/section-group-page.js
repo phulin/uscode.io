@@ -2,23 +2,43 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 
+import Breadcrumbs from "../components/breadcrumbs";
 import Layout from "../components/layout";
 import SectionOrGroup from "../components/section-or-group";
 
 const SectionGroupPage = ({ data }) => {
-  const { humanLevel, number, heading } = data.group;
+  const { humanLevel, number, heading, breadcrumbs, childNodes } = data.group;
   return (
     <Layout title={`${humanLevel} ${number}: ${heading}`}>
-      <SectionOrGroup withLink={false} {...data.group} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} current={{ humanLevel, number }} />
+      <h2>
+        {humanLevel} {number}: {heading}
+      </h2>
+      {childNodes.map((child, i) => (
+        <div key={i}>
+          <SectionOrGroup linkAs="h4" {...child} />
+        </div>
+      ))}
     </Layout>
   );
-}
+};
 
 SectionGroupPage.propTypes = {
   data: PropTypes.shape({
-    group: PropTypes.object.isRequired,
+    group: PropTypes.shape({
+      humanLevel: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+      heading: PropTypes.string.isRequired,
+      breadcrumbs: PropTypes.arrayOf(
+        PropTypes.shape({
+          humanLevel: PropTypes.string.isRequired,
+          number: PropTypes.string.isRequired,
+          heading: PropTypes.string.isRequired,
+        })
+      ),
+      childNodes: PropTypes.array.isRequired,
+    }).isRequired,
   }).isRequired,
-  //"data.group": PropTypes.object.isRequired,
 };
 
 export default SectionGroupPage;

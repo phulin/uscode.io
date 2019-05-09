@@ -7,6 +7,9 @@ const OrderedList = styled.ol({
   verticalAlign: `top`,
   marginBottom: `-0.5rem`,
   marginTop: 0,
+  "@media (max-width: 767.98px)": {
+    paddingInlineStart: `20px`,
+  }
 });
 
 OrderedList.Item = styled(`li`, {
@@ -14,14 +17,23 @@ OrderedList.Item = styled(`li`, {
 })({
   marginBottom: `0.5rem`,
   "&:before": {
-    content: `attr(seq) "  "`,
+    content: `attr(seq)`,
     display: `inline-block`,
     width: `4rem`,
     marginLeft: `-4rem`,
+    paddingRight: `0.5rem`,
     textAlign: `right`,
     whiteSpace: `pre`,
     verticalAlign: `top`,
   },
+  "@media (max-width: 767.98px)": {
+    "&:before": {
+      paddingRight: `0.2rem`,
+      fontSize: `smaller`,
+      position: `relative`,
+      top: `0.1rem`,
+    }
+  }
 });
 
 export default OrderedList;

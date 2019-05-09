@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
@@ -108,9 +107,13 @@ Content.propTypes = {
 
 const Section = ({ breadcrumbs, contentsString }) => {
   const contents = JSON.parse(contentsString);
+  const currentBreadcrumb = {
+    humanLevel: `Section`,
+    number: contents.num.attributes.value,
+  };
   return (
     <>
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb}/>
       <h1>{contents.num.text} {contents.heading.text}</h1>
       <Content node={contents} />
     </>
