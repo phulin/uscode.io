@@ -5,66 +5,76 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 import SectionOrGroup from "../components/section-or-group";
 
-const SectionGroupPage = ({ data }) => (
-  <Layout>
-    <SectionOrGroup {...data.group} />
-  </Layout>
-);
+const SectionGroupPage = ({ data }) => {
+  const { humanLevel, number, heading } = data.group;
+  return (
+    <Layout title={`${humanLevel} ${number}: ${heading}`}>
+      <SectionOrGroup withLink={false} {...data.group} />
+    </Layout>
+  );
+}
 
 SectionGroupPage.propTypes = {
-  data: PropTypes.object,
-  "data.group": PropTypes.object,
+  data: PropTypes.shape({
+    group: PropTypes.object.isRequired,
+  }).isRequired,
+  //"data.group": PropTypes.object.isRequired,
 };
 
 export default SectionGroupPage;
 
+/* This query is disgusting because GraphQL can't do arbitrary-depth queries.
+ * So we go to as much depth as we expect.
+ */
 export const query = graphql`
-  fragment sectionSlug on USCSection {
+  fragment sectionFields on USCSection {
     __typename
     shortSlug
     heading
     number
   }
 
-  fragment sectionGroupSlug on USCSectionGroup {
+  fragment sectionGroupFields on USCSectionGroup {
     __typename
     slug
-    level
+    humanLevel
     number
     heading
   }
 
   query($sectionGroup: String!) {
     group: uscSectionGroup(id: { eq: $sectionGroup }) {
-      ...sectionGroupSlug
+      ...sectionGroupFields
       breadcrumbs {
         heading
         level
+        humanLevel
         number
+        slug
       }
       childNodes: children {
-        ...sectionSlug
-        ...sectionGroupSlug
+        ...sectionFields
+        ...sectionGroupFields
         ... on USCSectionGroup {
           childNodes: children {
-            ...sectionSlug
-            ...sectionGroupSlug
+            ...sectionFields
+            ...sectionGroupFields
             ... on USCSectionGroup {
               childNodes: children {
-                ...sectionSlug
-                ...sectionGroupSlug
+                ...sectionFields
+                ...sectionGroupFields
                 ... on USCSectionGroup {
                   childNodes: children {
-                    ...sectionSlug
-                    ...sectionGroupSlug
+                    ...sectionFields
+                    ...sectionGroupFields
                     ... on USCSectionGroup {
                       childNodes: children {
-                        ...sectionSlug
-                        ...sectionGroupSlug
+                        ...sectionFields
+                        ...sectionGroupFields
                         ... on USCSectionGroup {
                           childNodes: children {
-                            ...sectionSlug
-                            ...sectionGroupSlug
+                            ...sectionFields
+                            ...sectionGroupFields
                           }
                         }
                       }

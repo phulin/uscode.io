@@ -2,7 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "gatsby";
 
-import OrderedList from "../components/ordered-list";
+import styled from "@emotion/styled";
+
+import Breadcrumbs from "./breadcrumbs";
+import OrderedList from "./ordered-list";
+
+const Chapeau = styled.div({
+  display: `inline-block`,
+  marginBottom: `0.5rem`,
+});
+
 
 const textLevels = new Set([
   `subsection`,
@@ -19,7 +28,7 @@ const tagMap = new Map(
   Object.entries({
     p: `p`,
     note: `p`,
-    chapeau: `span`,
+    chapeau: Chapeau,
     ref: `span`,
     date: `span`,
     content: `span`,
@@ -28,12 +37,13 @@ const tagMap = new Map(
 
 const hiddenTags = new Set([`note`]);
 
+const trimTags = new Set([`chapeau`, `content`]);
+
 const Content = ({ node }) => {
   if (node.type == `text`) {
     return node.text;
   }
 
-  console.log(node);
   // Group text levels into arrays so we can surround relevant tags with a list tag.
   const groupedChildren = [];
   for (const child of node.childNodes) {
@@ -53,7 +63,7 @@ const Content = ({ node }) => {
 
   // Hack to fix a data issue.
   let first = groupedChildren[0];
-  if (node.name === `content` && first && first.type === `text`) {
+  if (trimTags.has(node.name) && first && first.type === `text`) {
     first.text = first.text.replace(/^\W+/, ``);
   }
 
@@ -80,7 +90,7 @@ const Content = ({ node }) => {
   } else if (textLevels.has(node.name)) {
     return (
       <OrderedList.Item seq={node.num.text}>
-        <span>{node.heading ? node.heading.text : ``}</span>
+        {node.heading ? <span>{node.heading.text}</span> : <></>}
         {childContent}
       </OrderedList.Item>
     );
@@ -96,25 +106,12 @@ Content.propTypes = {
   "node.childNodes": PropTypes.array,
 };
 
-const SectionBreadcrumbs = ({ breadcrumbs }) =>
-  breadcrumbs.map(bc => (
-    <span key={bc.slug}>
-      <Link to={bc.slug}>{`${bc.humanLevel} ${bc.number}`}</Link>
-      {` > `}
-    </span>
-  ));
-
-SectionBreadcrumbs.propTypes = {
-  breadcrumbs: PropTypes.array,
-};
-
 const Section = ({ breadcrumbs, contentsString }) => {
   const contents = JSON.parse(contentsString);
   return (
     <>
-      <SectionBreadcrumbs breadcrumbs={breadcrumbs} />
-      {contents.num.text}
-      {contents.heading.text}
+      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <h1>{contents.num.text} {contents.heading.text}</h1>
       <Content node={contents} />
     </>
   );

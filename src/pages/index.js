@@ -1,21 +1,48 @@
 import React from "react";
-import { Link } from "gatsby";
+import PropTypes from "prop-types";
+import { graphql, Link } from "gatsby";
 
 import Layout from "../components/layout";
-import Image from "../components/image";
 import SEO from "../components/seo";
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => (
   <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <SEO title="Home" keywords={[`uscode`, `usc`, `statute`, `law`]} />
+    <h1>uscode.io</h1>
+    <h2>a (hopefully) beautiful place to read the law</h2>
+    <p>
+      This site is meant to be easy to link to (<i>e.g.</i> <Link to="/1/112b">uscode.io/1/112b</Link>) and easy to read.
+      No ads. It is not intended for heavy-duty legal research.
+    </p>
+    <p>Browse:</p>
+    <ul>
+      {data.titles.nodes.map(({ number, heading, slug }) => (
+        <li key={slug}>
+          <Link to={slug}>Title {number}: {heading}</Link>
+        </li>
+      ))}
+    </ul>
+    <p>Keyboard shortcuts: in progress.</p>
+    <p>Search functionality: maybe someday.</p>
   </Layout>
 );
 
+IndexPage.propTypes = {
+  data: PropTypes.object.isRequired,
+  "data.titles": PropTypes.object.isRequired,
+  "data.titles.nodes": PropTypes.array.isRequired,
+};
+
 export default IndexPage;
+
+export const query = graphql`
+  query {
+    titles: allUscSectionGroup(filter: { level: { eq: "title" } }) {
+      nodes {
+        number
+        slug
+        heading
+      }
+    }
+  }
+`;
