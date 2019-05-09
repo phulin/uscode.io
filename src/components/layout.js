@@ -11,8 +11,6 @@ import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import SEO from "./seo";
-
 import "typeface-open-sans";
 
 const Container = styled.div({
@@ -35,18 +33,18 @@ const Layout = ({ children }) => (
     <Container>
       <main>{children}</main>
       <footer style={{ marginTop: `2rem`, color: `gray` }}>
-        <a href="https://github.com/phulin/uscode.io">HTML layout</a>
-        © {new Date().getFullYear()} Patrick Hulin.
-        Derived from data provided by the
-        <a href="http://uscode.house.gov/">US House Office of the Law Revision Counsel</a>;
-        all content should be in the public domain.
+        <a href="https://github.com/phulin/uscode.io">HTML layout</a> © {new Date().getFullYear()} Patrick Hulin.
+        Derived from data provided by the <a href="http://uscode.house.gov/">US House Office of the Law Revision Counsel</a>; all content should be in the public domain.
       </footer>
     </Container>
   </>
 );
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   title: PropTypes.string.isRequired,
 };
 
