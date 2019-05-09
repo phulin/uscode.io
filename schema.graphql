@@ -19,6 +19,5 @@ type USCSection implements Node {
   heading: String!
   notes: [String!]!
   breadcrumbs: [USCSectionGroup!]!
-  shortSlug: String!
   slug: String!
 }

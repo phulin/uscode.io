@@ -27,8 +27,9 @@ const SectionPage = ({ data }) => {
 };
 
 SectionPage.propTypes = {
-  data: PropTypes.object,
-  "data.section": PropTypes.object,
+  data: PropTypes.shape({
+    section: PropTypes.shape(Section.propTypes),
+  }),
 };
 
 export default SectionPage;
@@ -36,7 +37,7 @@ export default SectionPage;
 export const query = graphql`
   query($section: String!) {
     section: uscSection(id: { eq: $section }) {
-      shortSlug
+      slug
       heading
       number
       contentsString: contents

@@ -189,8 +189,7 @@ class Visitor {
       heading,
       notes: [],
       breadcrumbs: breadcrumbs.map(bc => bc),
-      shortSlug: `/${this.title}/${number}`,
-      slug: `${parent.slug}/section-${number}`,
+      slug: `/${this.title}/${number}`,
       xml,
       contents: JSON.stringify(usml2json(section)),
       id: this.createNodeId(`${parent.id} >>> Section ${number}`),
@@ -269,7 +268,6 @@ exports.createPages = async function({ graphql, actions }) {
         nodes {
           id
           slug
-          shortSlug
         }
       }
     }
@@ -283,13 +281,6 @@ exports.createPages = async function({ graphql, actions }) {
   sections.data.allUscSection.nodes.forEach(node => {
     createPage({
       path: node.slug,
-      component: sectionPage,
-      context: {
-        section: node.id,
-      },
-    });
-    createPage({
-      path: node.shortSlug,
       component: sectionPage,
       context: {
         section: node.id,

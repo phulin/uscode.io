@@ -29,7 +29,7 @@ export default SectionGroupPage;
 export const query = graphql`
   fragment sectionFields on USCSection {
     __typename
-    shortSlug
+    slug
     heading
     number
   }
