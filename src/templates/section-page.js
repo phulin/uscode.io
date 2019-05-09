@@ -43,6 +43,7 @@ export const query = graphql`
       contentsString: contents
       breadcrumbs {
         heading
+        level
         humanLevel
         number
         slug
