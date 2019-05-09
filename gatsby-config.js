@@ -1,8 +1,9 @@
 module.exports = {
   siteMetadata: {
     title: `uscode.io`,
-    description: `Beautiful US Code viewer.`,
+    description: `Minimalist and (hopefully) beautiful US Code viewer.`,
     author: `Patrick Hulin`,
+    siteUrl: `https://uscode.io`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -18,8 +19,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `uscode.io`,
+        short_name: `uscode.io`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
@@ -35,6 +36,17 @@ module.exports = {
       },
     },
     `gatsby-plugin-emotion`,
+    `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        policy: [{
+          userAgent: `*`,
+          allow: `/`,
+          crawlDelay: 10,
+        }],
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
