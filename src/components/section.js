@@ -106,7 +106,6 @@ const Content = ({ node }) => {
       <SectionContext.Consumer>
         {({ title, section }) => {
           const name = identifier.replace(`/us/usc/t${title}/s${section}/`, ``);
-          console.log(name);
           return (
             <OrderedList.Item seq={node.num.text}>
               <a name={name} />
