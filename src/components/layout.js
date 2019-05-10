@@ -45,7 +45,7 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { breadcrumbs, children } = this.props;
     const theme = this.state.nightMode ? `darkly` :`flatly`;
     return (
       <>
@@ -63,8 +63,8 @@ class Layout extends React.Component {
         <Theme theme={theme} />
         <Container>
           <Navbar bg="light" expand="sm">
-            <Navbar.Brand href="/">uscode.io</Navbar.Brand>
             <Navbar.Collapse>
+              {breadcrumbs}
               <Nav className="ml-auto">
                 <Button variant="light" onClick={this.onToggleNightMode}>
                   Night Mode
@@ -89,10 +89,15 @@ class Layout extends React.Component {
 }
 
 Layout.propTypes = {
+  breadcrumbs: PropTypes.node,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
+};
+
+Layout.defaultProps = {
+  breadcrumbs: <></>,
 };
 
 export default Layout;

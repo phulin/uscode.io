@@ -2,32 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "gatsby";
 
+import styled from "@emotion/styled";
+
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const LinkHref = ({ href, children, ...props }) => (
-  <Link to={href} {...props}>
-    {children}
-  </Link>
-);
-
-LinkHref.propTypes = {
-  onClick: PropTypes.func,
-  href: PropTypes.string.isRequired,
-  children: PropTypes.oneOf([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
+const StyledBreadcrumb = styled(Breadcrumb)({
+  "> ol": {
+    marginBottom: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    backgroundColor: `rgba(0, 0, 0, 0)`,
+  },
+});
 
 const Breadcrumbs = ({ breadcrumbs, current }) => (
-  <Breadcrumb className="mt-3">
+  <StyledBreadcrumb>
     {breadcrumbs.map((bc, i) => (
       <li className="breadcrumb-item" key={bc.slug}>
         <OverlayTrigger
           key={bc.slug}
-          placement="top"
+          placement="bottom"
           overlay={<Tooltip>{bc.heading}</Tooltip>}
         >
           <Link to={bc.slug}>
@@ -43,7 +39,7 @@ const Breadcrumbs = ({ breadcrumbs, current }) => (
         {current.humanLevel} {current.number}
       </span>
     </li>
-  </Breadcrumb>
+  </StyledBreadcrumb>
 );
 
 Breadcrumbs.propTypes = {

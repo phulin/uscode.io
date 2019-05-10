@@ -2,17 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 
+import Breadcrumbs from "../components/Breadcrumbs";
 import Layout from "../components/layout";
 import Section from "../components/section";
 import SEO from "../components/seo";
 
 const SectionPage = ({ data }) => {
   const section = data.section;
-  const title = section.breadcrumbs[0];
+  const contents = JSON.parse(section.contentsString);
+  const sectionNumber = contents.num.attributes.value;
+  const currentBreadcrumb = {
+    humanLevel: `Section`,
+    number: sectionNumber,
+  };
+  const breadcrumbs = section.breadcrumbs;
+  const title = breadcrumbs[0];
   const cite = `${title.number} U.S.C. § ${section.number}`;
   const pageTitle = `${cite}: ${section.heading}`;
   return (
-    <Layout>
+    <Layout breadcrumbs={
+      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
+    }>
       <SEO
         title={pageTitle}
         keywords={[`uscode`, `usc`, `statute`, `law`, cite, section.heading]}
@@ -21,7 +31,7 @@ const SectionPage = ({ data }) => {
           `Section ${section.number}: ${section.heading}`
         }
       />
-      <Section {...data.section} />
+      <Section contents={contents} {...data.section} />
     </Layout>
   );
 };

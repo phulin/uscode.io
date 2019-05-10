@@ -130,13 +130,8 @@ Content.propTypes = {
   }),
 };
 
-const Section = ({ breadcrumbs, contentsString }) => {
-  const contents = JSON.parse(contentsString);
+const Section = ({ breadcrumbs, contents }) => {
   const sectionNumber = contents.num.attributes.value;
-  const currentBreadcrumb = {
-    humanLevel: `Section`,
-    number: sectionNumber,
-  };
   return (
     <SectionContext.Provider
       value={{
@@ -145,7 +140,6 @@ const Section = ({ breadcrumbs, contentsString }) => {
         breadcrumbs,
       }}
     >
-      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
       <h2>
         {contents.num.text} {contents.heading.text}
       </h2>
@@ -155,10 +149,9 @@ const Section = ({ breadcrumbs, contentsString }) => {
 };
 
 Section.propTypes = {
-  heading: PropTypes.string,
-  number: PropTypes.string,
-  breadcrumbs: PropTypes.array,
+  breadcrumbs: PropTypes.array.isRequired,
   contentsString: PropTypes.string,
+  contents: PropTypes.object,
 };
 
 export default Section;
