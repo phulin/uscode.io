@@ -34,7 +34,7 @@ const StyledRBNavbar = styled(RBNavbar)({
 
 const Navbar = ({ breadcrumbs, nightMode, onToggleNightMode }) => (
   <StyledRBNavbar bg="light" expand="md">
-    <RBNavbar.Brand className="d-sm-none">uscode.io</RBNavbar.Brand>
+    <RBNavbar.Brand className="d-md-none">uscode.io</RBNavbar.Brand>
     <RBNavbar.Toggle
       as={SmallTogglerButton}
       aria-controls="response-navbar-nav"
