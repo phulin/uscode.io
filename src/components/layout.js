@@ -23,7 +23,7 @@ class Layout extends React.Component {
     this.onToggleNightMode = this.onToggleNightMode.bind(this);
 
     // eslint-disable-next-line no-undef
-    if (window) {
+    if (typeof window !== `undefined`) {
       // eslint-disable-next-line no-undef
       let nightMode = window.localStorage.getItem(`nightMode`);
       this.state.nightMode = nightMode === null ? false : nightMode === "true";

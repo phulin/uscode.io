@@ -7,6 +7,12 @@ import zip from "lodash/zip";
 
 import { SectionContext } from "./section";
 
+Object.fromEntries = iterable =>
+  [...iterable].reduce(
+    (obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }),
+    {}
+  );
+
 const groupLevels = [
   `title`,
   `subtitle`,
