@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import { Link } from "gatsby";
 
 const SectionLink = ({ number, heading, slug }) => (
-  <Link to={slug}>Section {number}: {heading}</Link>
+  <Link to={slug}>
+    Section {number}: {heading}
+  </Link>
 );
 
 SectionLink.propTypes = {

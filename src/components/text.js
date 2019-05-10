@@ -99,7 +99,7 @@ const Text = ({ children }) => {
   return withRefs.map(obj => (
     <TextFragment key={`${obj.type}-${obj.index}`} {...obj} />
   ));
-}
+};
 
 Text.propTypes = {
   children: PropTypes.string.isRequired,

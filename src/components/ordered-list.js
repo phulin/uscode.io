@@ -9,7 +9,7 @@ const OrderedList = styled.ol({
   marginTop: 0,
   "@media (max-width: 767.98px)": {
     paddingInlineStart: `20px`,
-  }
+  },
 });
 
 OrderedList.Item = styled(`li`, {
@@ -32,8 +32,8 @@ OrderedList.Item = styled(`li`, {
       fontSize: `smaller`,
       position: `relative`,
       top: `0.1rem`,
-    }
-  }
+    },
+  },
 });
 
 export default OrderedList;

@@ -19,8 +19,8 @@ const StyledBreadcrumb = styled(Breadcrumb)({
     "> ol": {
       padding: 0,
       marginTop: `0.5rem`,
-    }
-  }
+    },
+  },
 });
 
 const Breadcrumbs = ({ breadcrumbs, current }) => (
