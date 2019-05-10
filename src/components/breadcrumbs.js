@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "gatsby";
 
 import Breadcrumb from "react-bootstrap/Breadcrumb";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const LinkHref = ({ href, children, ...props }) => (
   <Link to={href} {...props}>
@@ -23,10 +25,16 @@ const Breadcrumbs = ({ breadcrumbs, current }) => (
   <Breadcrumb className="mt-3">
     {breadcrumbs.map((bc, i) => (
       <li className="breadcrumb-item" key={bc.slug}>
-        <Link to={bc.slug}>
-          {i === 0 ? `U.S. Code ` : ``}
-          {bc.humanLevel} {bc.number}
-        </Link>
+        <OverlayTrigger
+          key={bc.slug}
+          placement="top"
+          overlay={<Tooltip>{bc.heading}</Tooltip>}
+        >
+          <Link to={bc.slug}>
+            {i === 0 ? `U.S. Code ` : ``}
+            {bc.humanLevel} {bc.number}
+          </Link>
+        </OverlayTrigger>
       </li>
     ))}
     <li className="breadcrumb-item active" aria-current="page">
