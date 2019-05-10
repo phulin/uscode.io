@@ -20,6 +20,8 @@ class Theme extends React.Component {
   }
 
   createStylesheet() {
+    if (typeof document === `undefined`) { return; }
+
     const { theme } = this.props;
 
     const link = document.createElement(`link`);
@@ -32,12 +34,8 @@ class Theme extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props === prevProps) {
-      return;
-    }
-    if (typeof document === `undefined`) {
-      return;
-    }
+    if (this.props === prevProps) { return; }
+    if (typeof document === `undefined`) { return; }
 
     const link = this.createStylesheet();
     link.onload = e => {
