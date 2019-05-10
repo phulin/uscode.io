@@ -61,7 +61,7 @@ const addRefs = text => {
   return nodeList;
 };
 
-const Fragment = ({ type, text, groups }) => {
+const TextFragment = ({ type, text, groups }) => {
   if (type === `text`) {
     return text;
   } else if (type === `ref-group`) {
@@ -81,7 +81,7 @@ const Fragment = ({ type, text, groups }) => {
   }
 };
 
-Fragment.propTypes = {
+TextFragment.propTypes = {
   type: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
@@ -91,14 +91,14 @@ Fragment.propTypes = {
 const Text = ({ children }) => {
   const withRefs = addRefs(children);
   return withRefs.map(obj => (
-    <Fragment key={`${obj.type}-${obj.index}`} {...obj} />
+    <TextFragment key={`${obj.type}-${obj.index}`} {...obj} />
   ));
-};
+}
 
 Text.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
-Text.Fragment = Fragment;
+Text.Fragment = TextFragment;
 
 export default Text;
