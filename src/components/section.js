@@ -103,19 +103,19 @@ const Content = ({ node }) => {
   } else if (textLevels.has(node.name)) {
     let identifier = node.attributes.identifier;
     return (
-      <>
-        <SectionContext.Consumer>
-          {({ title, section }) => (
-            <a
-              name={identifier.replace(`/us/usc/t${title}/s${section}/`, ``)}
-            />
-          )}
-        </SectionContext.Consumer>
-        <OrderedList.Item seq={node.num.text}>
-          {node.heading ? <span>{node.heading.text}</span> : <></>}
-          {childContent}
-        </OrderedList.Item>
-      </>
+      <SectionContext.Consumer>
+        {({ title, section }) => {
+          const name = identifier.replace(`/us/usc/t${title}/s${section}/`, ``);
+          console.log(name);
+          return (
+            <OrderedList.Item seq={node.num.text}>
+              <a name={name} />
+              {node.heading ? <span>{node.heading.text}</span> : <></>}
+              {childContent}
+            </OrderedList.Item>
+          );
+        }}
+      </SectionContext.Consumer>
     );
   } else {
     return <>{childContent}</>;
@@ -146,11 +146,10 @@ const Section = ({ breadcrumbs, contents }) => {
       <Content node={contents} />
     </SectionContext.Provider>
   );
-};
+}
 
 Section.propTypes = {
   breadcrumbs: PropTypes.array.isRequired,
-  contentsString: PropTypes.string,
   contents: PropTypes.object,
 };
 

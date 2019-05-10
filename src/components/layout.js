@@ -19,7 +19,11 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { nightMode: false };
+    this.state = {
+      nightMode: false,
+      visible: new Set(),
+    };
+
     this.onToggleNightMode = this.onToggleNightMode.bind(this);
 
     // eslint-disable-next-line no-undef

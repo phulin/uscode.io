@@ -1,39 +1,58 @@
-import isPropValid from "@emotion/is-prop-valid";
+import React from "react";
+import PropTypes from "prop-types";
+
 import styled from "@emotion/styled";
 
 const OrderedList = styled.ol({
   listStyle: `none`,
-  display: `inline-block`,
-  verticalAlign: `top`,
+  display: `block`,
   marginBottom: `-0.5rem`,
   marginTop: 0,
+  paddingInlineStart: 0,
   "@media (max-width: 767.98px)": {
-    paddingInlineStart: `20px`,
+    paddingInlineStart: 0, // `20px`,
   },
 });
 
-OrderedList.Item = styled(`li`, {
-  shouldForwardProp: prop => isPropValid(prop) || prop === `seq`,
-})({
+const StyledLi = styled.li({
+  display: `flex`,
+  alignItems: `flex-start`,
   marginBottom: `0.5rem`,
-  "&:before": {
-    content: `attr(seq)`,
-    display: `inline-block`,
-    width: `4rem`,
-    marginLeft: `-4rem`,
-    paddingRight: `0.5rem`,
+  "> .numeral": {
+    flexShrink: 0,
     textAlign: `right`,
-    whiteSpace: `pre`,
-    verticalAlign: `top`,
+    whiteSpace: `nowrap`,
+    width: `40px`,
+    paddingRight: `0.4rem`,
   },
   "@media (max-width: 767.98px)": {
-    "&:before": {
+    "> .numeral": {
+      width: `20px`,
       paddingRight: `0.2rem`,
       fontSize: `smaller`,
       position: `relative`,
-      top: `0.1rem`,
+      top: `0.15rem`,
     },
   },
 });
+
+const OrderedListItem = ({ seq, children }) => (
+  <StyledLi>
+    <div className="numeral">
+      {seq}
+    </div>
+    <div>{children}</div>
+  </StyledLi>
+);
+
+OrderedListItem.propTypes = {
+  seq: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
+
+OrderedList.Item = OrderedListItem;
 
 export default OrderedList;
