@@ -70,7 +70,7 @@ class Layout extends React.Component {
             onToggleNightMode={this.onToggleNightMode}
           />
           <main>{children}</main>
-          <footer style={{ marginTop: `2rem` }}>
+          <footer style={{ marginTop: `2rem`, marginBottom: `0.5rem` }}>
             <small className="text-muted">
               <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
               {new Date().getFullYear()} Patrick Hulin. Derived from data
