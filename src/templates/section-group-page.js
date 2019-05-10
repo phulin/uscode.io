@@ -4,16 +4,21 @@ import { graphql } from "gatsby";
 
 import Breadcrumbs from "../components/breadcrumbs";
 import Layout from "../components/layout";
+import PageHeading from "../components/page-heading";
 import SectionOrGroup from "../components/section-or-group";
 
 const SectionGroupPage = ({ data }) => {
   const { humanLevel, number, heading, breadcrumbs, childNodes } = data.group;
   return (
-    <Layout title={`${humanLevel} ${number}: ${heading}`}>
-      <Breadcrumbs breadcrumbs={breadcrumbs} current={{ humanLevel, number }} />
-      <h2>
+    <Layout
+      title={`${humanLevel} ${number}: ${heading}`}
+      breadcrumbs={
+        <Breadcrumbs breadcrumbs={breadcrumbs} current={{ humanLevel, number }} />
+      }
+    >
+      <PageHeading>
         {humanLevel} {number}: {heading}
-      </h2>
+      </PageHeading>
       {childNodes.map((child, i) => (
         <div key={i}>
           <SectionOrGroup linkAs="h4" {...child} />

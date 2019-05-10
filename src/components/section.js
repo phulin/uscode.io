@@ -4,8 +4,8 @@ import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
-import Breadcrumbs from "./breadcrumbs";
 import OrderedList from "./ordered-list";
+import PageHeading from "./page-heading";
 import Text from "./text";
 
 export const SectionContext = React.createContext({});
@@ -140,9 +140,9 @@ const Section = ({ breadcrumbs, contents }) => {
         breadcrumbs,
       }}
     >
-      <h2>
+      <PageHeading>
         {contents.num.text} {contents.heading.text}
-      </h2>
+      </PageHeading>
       <Content node={contents} />
     </SectionContext.Provider>
   );

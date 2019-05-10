@@ -15,6 +15,12 @@ const StyledBreadcrumb = styled(Breadcrumb)({
     paddingBottom: 0,
     backgroundColor: `rgba(0, 0, 0, 0)`,
   },
+  "@media(max-width: 767.98px)": {
+    "> ol": {
+      padding: 0,
+      marginTop: `0.5rem`,
+    }
+  }
 });
 
 const Breadcrumbs = ({ breadcrumbs, current }) => (

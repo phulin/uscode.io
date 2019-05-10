@@ -10,11 +10,9 @@ import PropTypes from "prop-types";
 
 import { Global } from "@emotion/core";
 
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 
+import Navbar from "./navbar";
 import Theme from "./theme";
 
 class Layout extends React.Component {
@@ -46,7 +44,7 @@ class Layout extends React.Component {
 
   render() {
     const { breadcrumbs, children } = this.props;
-    const theme = this.state.nightMode ? `darkly` :`flatly`;
+    const theme = this.state.nightMode ? `darkly` : `flatly`;
     return (
       <>
         <Global
@@ -62,25 +60,22 @@ class Layout extends React.Component {
         />
         <Theme theme={theme} />
         <Container>
-          <Navbar bg="light" expand="sm">
-            <Navbar.Collapse>
-              {breadcrumbs}
-              <Nav className="ml-auto">
-                <Button variant="light" onClick={this.onToggleNightMode}>
-                  Night Mode
-                </Button>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
+          <Navbar
+            breadcrumbs={breadcrumbs}
+            nightMode={this.state.nightMode}
+            onToggleNightMode={this.onToggleNightMode}
+          />
           <main>{children}</main>
-          <footer style={{ marginTop: `2rem`, color: `gray` }}>
-            <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
-            {new Date().getFullYear()} Patrick Hulin. Derived from data provided
-            by the{" "}
-            <a href="http://uscode.house.gov/">
-              US House Office of the Law Revision Counsel
-            </a>
-            ; all content should be in the public domain.
+          <footer style={{ marginTop: `2rem` }}>
+            <small className="text-muted">
+              <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
+              {new Date().getFullYear()} Patrick Hulin. Derived from data
+              provided by the{" "}
+              <a href="http://uscode.house.gov/">
+                US House Office of the Law Revision Counsel
+              </a>
+              ; all content should be in the public domain.
+            </small>
           </footer>
         </Container>
       </>

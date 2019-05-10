@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/breadcrumbs";
 import Layout from "../components/layout";
 import Section from "../components/section";
 import SEO from "../components/seo";
