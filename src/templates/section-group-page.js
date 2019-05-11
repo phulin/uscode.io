@@ -54,6 +54,7 @@ export default SectionGroupPage;
 export const query = graphql`
   fragment sectionFields on USCSection {
     __typename
+    status
     slug
     heading
     number
@@ -61,6 +62,7 @@ export const query = graphql`
 
   fragment sectionGroupFields on USCSectionGroup {
     __typename
+    status
     slug
     humanLevel
     number
@@ -88,24 +90,6 @@ export const query = graphql`
               childNodes: children {
                 ...sectionFields
                 ...sectionGroupFields
-                ... on USCSectionGroup {
-                  childNodes: children {
-                    ...sectionFields
-                    ...sectionGroupFields
-                    ... on USCSectionGroup {
-                      childNodes: children {
-                        ...sectionFields
-                        ...sectionGroupFields
-                        ... on USCSectionGroup {
-                          childNodes: children {
-                            ...sectionFields
-                            ...sectionGroupFields
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
               }
             }
           }

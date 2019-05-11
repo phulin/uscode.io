@@ -5,6 +5,7 @@ type USCFile implements Node {
 
 type USCSectionGroup implements Node {
   identifier: String!
+  status: String!
   level: String!
   humanLevel: String!
   number: String!
@@ -16,6 +17,7 @@ type USCSectionGroup implements Node {
 
 type USCSection implements Node {
   identifier: String!
+  status: String!
   number: String!
   heading: String!
   notes: [String!]!

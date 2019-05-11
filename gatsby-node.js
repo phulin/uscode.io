@@ -132,6 +132,8 @@ class Visitor {
     const identifier = group.attr(`identifier`).value();
     const level = group.name();
     const humanLevel = `${level.charAt(0).toUpperCase()}${level.slice(1)}`;
+    const statusAttr = group.attr(`status`);
+    const status = statusAttr ? statusAttr.value() : `valid`;
 
     const slug =
       breadcrumbs.map(bc => `/${bc.level}-${bc.number}`).join(``) +
@@ -139,6 +141,7 @@ class Visitor {
 
     const node = {
       identifier,
+      status,
       level,
       humanLevel,
       number,
@@ -182,11 +185,14 @@ class Visitor {
     const number = section.get(`.//uslm:num/@value`, NS).value();
     const heading = this.getHeading(section);
     const identifier = section.attr(`identifier`).value();
+    const statusAttr = section.attr(`status`);
+    const status = statusAttr ? statusAttr.value() : `valid`;
 
     const xml = section.toString();
 
     const node = {
       identifier,
+      status,
       title: this.title,
       number,
       heading,
