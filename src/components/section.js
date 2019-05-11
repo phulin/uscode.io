@@ -21,6 +21,10 @@ const Heading = styled(Chapeau)({
   fontWeight: `bold`,
 });
 
+const FullDiv = styled.div({
+  width: `100%`,
+});
+
 const textLevels = new Set([
   `subsection`,
   `paragraph`,
@@ -34,7 +38,7 @@ const textLevels = new Set([
 
 const SectionTable = ({ children, ...props }) => (
   <Table
-    css={{ width: `calc(100% - 80px) !important`, margin: `0.5rem 40px 0` }}
+    css={{ width: `auto !important`, maxWidth: `calc(100% - 80px) !important`, margin: `0.5rem 40px 0` }}
     bordered
     size="sm"
     {...props}
@@ -49,12 +53,13 @@ SectionTable.propTypes = {
 
 const tagMap = new Map(
   Object.entries({
-    p: `div`,
-    note: `p`,
+    p: FullDiv,
+    note: FullDiv,
     chapeau: Chapeau,
     date: `span`,
     content: `span`,
     table: SectionTable,
+    continuation: styled(FullDiv)({ marginTop: `0.5rem` }),
   })
 );
 

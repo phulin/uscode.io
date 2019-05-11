@@ -13,18 +13,24 @@ const OrderedList = styled.ol({
   "@media (max-width: 767.98px)": {
     paddingInlineStart: 0, // `20px`,
   },
+  "& + .text": {
+    marginTop: `0.5rem`,
+  },
 });
 
 const StyledLi = styled.li({
   display: `flex`,
   alignItems: `flex-start`,
-  marginBottom: `0.5rem`,
+  paddingBottom: `0.5rem`,
   "> .numeral": {
     flexShrink: 0,
     textAlign: `right`,
     whiteSpace: `nowrap`,
     width: `40px`,
     paddingRight: `0.4rem`,
+  },
+  "> .li-content": {
+    width: `100%`,
   },
   "@media (max-width: 767.98px)": {
     "> .numeral": {
@@ -42,7 +48,7 @@ const OrderedListItem = ({ seq, children }) => (
     <div className="numeral">
       {seq}
     </div>
-    <div>{children}</div>
+    <div className="li-content">{children}</div>
   </StyledLi>
 );
 
