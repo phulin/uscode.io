@@ -137,7 +137,7 @@ class Visitor {
 
     const slug =
       breadcrumbs.map(bc => `/${bc.level}-${bc.number}`).join(``) +
-      `/${level}-${number}`;
+      `/${level}-${number}/`;
 
     const node = {
       identifier,
@@ -198,7 +198,7 @@ class Visitor {
       heading,
       notes: [],
       breadcrumbs: breadcrumbs.map(bc => bc),
-      slug: `/${this.title}/${number}`,
+      slug: `/${this.title}/${number}/`,
       contents: JSON.stringify(usml2json(section)),
       id: this.createNodeId(`${parent.id} >>> Section ${number}`),
       parent: parent.id,
@@ -256,6 +256,7 @@ exports.createPages = async function({ graphql, actions }) {
   `);
 
   if (sectionGroups.errors) {
+    /* eslint-disable-next-line no-console */
     console.error(sectionGroups.errors);
     return;
   }
@@ -282,6 +283,7 @@ exports.createPages = async function({ graphql, actions }) {
   `);
 
   if (sections.errors) {
+    /* eslint-disable-next-line no-console */
     console.error(sections.errors);
     return;
   }
