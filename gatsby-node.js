@@ -81,6 +81,9 @@ function usml2json(node) {
       }
     }
 
+    /* Ensure anything we lifted to root is no longer a child. */
+    result.childNodes = result.childNodes.filter(c => result[c.name] === undefined);
+
     return result;
   } else {
     return { type: `error`, error: `Unrecognized node type.` };
@@ -190,7 +193,6 @@ class Visitor {
       notes: [],
       breadcrumbs: breadcrumbs.map(bc => bc),
       slug: `/${this.title}/${number}`,
-      xml,
       contents: JSON.stringify(usml2json(section)),
       id: this.createNodeId(`${parent.id} >>> Section ${number}`),
       parent: parent.id,

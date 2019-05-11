@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 
 import Helmet from "react-helmet";
 
-/* TODO: Somehow avoid flash of unthemed content. */
-import "../css/flatly/bootstrap.min.css";
-
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-
 class Theme extends React.Component {
   constructor(props) {
     super(props);
-    this.createStylesheet();
+
+    this.state = { initialized: false };
+
+    if (typeof document !== `undefined`) {
+      const link = this.createStylesheet();
+      link.onload = () => this.setState({ initialized: true });
+    }
   }
 
-  href(theme) {
-    return `https://cdn.jsdelivr.net/gh/phulin/bootswatch@7915d440/dist/${theme}/bootstrap.css`;
+  href() {
+    const theme = this.props.theme;
+    return `https://cdn.jsdelivr.net/gh/phulin/bootswatch@7915d440/dist/${theme}/bootstrap.min.css`;
   }
 
   createStylesheet() {
@@ -26,17 +27,20 @@ class Theme extends React.Component {
 
     const { theme } = this.props;
 
+    /* eslint-disable no-undef */
     const link = document.createElement(`link`);
     link.setAttribute(`type`, `text/css`);
     link.setAttribute(`rel`, `stylesheet`);
-    link.setAttribute(`href`, this.href(theme));
+    link.setAttribute(`href`, this.href());
     link.setAttribute(`data-theme`, theme);
     document.head.appendChild(link);
+    /* eslint-enable no-undef */
     return link;
   }
 
+  /* eslint-disable-next-line no-unused-vars */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props === prevProps) {
+    if (this.props.theme === prevProps.theme) {
       return;
     }
     if (typeof document === `undefined`) {
@@ -44,9 +48,11 @@ class Theme extends React.Component {
     }
 
     const link = this.createStylesheet();
-    link.onload = e => {
+    link.onload = () => {
       // Props might have changed - be careful.
       const { theme } = this.props;
+      this.setState({ initialized: true });
+      /* eslint-disable-next-line no-undef */
       const oldLinks = document.head.querySelectorAll(
         `link:not([data-theme="${theme}"])`
       );
@@ -57,7 +63,8 @@ class Theme extends React.Component {
   }
 
   render() {
-    return <></>;
+    return this.state.initialized ? <></> :
+      <link rel="stylesheet" type="text/css" href={this.href()} />;
   }
 }
 

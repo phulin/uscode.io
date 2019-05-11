@@ -6,6 +6,7 @@ type USCFile implements Node {
 type USCSectionGroup implements Node {
   identifier: String!
   level: String!
+  humanLevel: String!
   number: String!
   heading: String!
   notes: [String!]!
@@ -20,4 +21,5 @@ type USCSection implements Node {
   notes: [String!]!
   breadcrumbs: [USCSectionGroup!]!
   slug: String!
+  contents: String!
 }

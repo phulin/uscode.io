@@ -70,7 +70,7 @@ const hiddenTags = new Set([`note`]);
 
 const trimTags = new Set([`chapeau`, `content`]);
 const Content = ({ node }) => {
-  if (node.type == `text`) {
+  if (node.type === `text`) {
     return <Text>{node.text}</Text>;
   }
 
