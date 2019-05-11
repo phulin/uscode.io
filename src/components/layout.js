@@ -105,8 +105,4 @@ Layout.propTypes = {
   ]).isRequired,
 };
 
-Layout.defaultProps = {
-  breadcrumbs: <></>,
-};
-
 export default Layout;

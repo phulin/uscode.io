@@ -2,25 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql, Link } from "gatsby";
 
+import sortBy from "lodash/sortBy";
+
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" keywords={[`uscode`, `usc`, `statute`, `law`]} />
-    <h1>uscode.io</h1>
-    <h2>a (hopefully) beautiful place to read the law</h2>
+    <h3 css={{ marginTop: `0.5rem` }}>a minimalist website for the US Code</h3>
     <p>
-      This site is meant to be easy to link to (<i>e.g.</i> <Link to="/1/112b">uscode.io/1/112b</Link>) and easy to read.
-      No ads. It is not intended for heavy-duty legal research.
+      This site is meant to be easy to link to (<i>e.g.</i>
+      {` `}
+      <Link to="/26/1">uscode.io/26/1</Link>) and easy to read.{` `}
+      No ads or tracking. It is not really intended for heavy-duty legal
+      research.
     </p>
     <p>Browse:</p>
     <ul>
-      {data.titles.nodes.map(({ number, heading, slug }) => (
-        <li key={slug}>
-          <Link to={slug}>Title {number}: {heading}</Link>
-        </li>
-      ))}
+      {sortBy(data.titles.nodes, t => parseInt(t.number)).map(
+        ({ number, heading, slug }) => (
+          <li key={slug}>
+            <Link to={slug}>
+              Title {number}: {heading}
+            </Link>
+          </li>
+        )
+      )}
     </ul>
     <p>Keyboard shortcuts: in progress.</p>
     <p>Search functionality: maybe someday.</p>
