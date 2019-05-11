@@ -4,6 +4,7 @@ import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
+import Anchor from "./anchor";
 import OrderedList from "./ordered-list";
 import PageHeading from "./page-heading";
 import Text from "./text";
@@ -106,9 +107,11 @@ const Content = ({ node }) => {
       <SectionContext.Consumer>
         {({ title, section }) => {
           const name = identifier.replace(`/us/usc/t${title}/s${section}/`, ``);
+          const elements = name.split(`/`);
+          const humanName = `(${elements.join(`)(`)})`;
           return (
             <OrderedList.Item seq={node.num.text}>
-              <a name={name} />
+              <Anchor name={name} className="text-muted">{humanName}</Anchor>
               {node.heading ? <span>{node.heading.text}</span> : <></>}
               {childContent}
             </OrderedList.Item>

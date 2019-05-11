@@ -57,6 +57,9 @@ class Layout extends React.Component {
               /*fontFamily: `"Open Sans", sans-serif`,*/
               hyphens: `auto`,
             },
+            "main": {
+              position: `relative`,
+            },
             "p.indent1, p.indent2, p.indent3, p.indent4, p.indent5, p.indent6": {
               marginLeft: `40px`,
             },
