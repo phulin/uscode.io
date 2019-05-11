@@ -16,6 +16,9 @@ const OrderedList = styled.ol({
   "& + .text": {
     marginTop: `0.5rem`,
   },
+  "continuation + &": {
+    marginTop: `0.5rem`,
+  },
 });
 
 const StyledLi = styled.li({
