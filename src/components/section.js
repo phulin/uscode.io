@@ -13,9 +13,12 @@ import Text from "./text";
 
 export const SectionContext = React.createContext({});
 
-const Chapeau = styled.div({
-  display: `inline-block`,
+const Chapeau = styled.p({
   marginBottom: `0.5rem`,
+});
+
+const Heading = styled(Chapeau)({
+  fontWeight: `bold`,
 });
 
 const textLevels = new Set([
@@ -31,7 +34,7 @@ const textLevels = new Set([
 
 const SectionTable = ({ children, ...props }) => (
   <Table
-    css={{ width: `calc(100% - 80px)`, margin: `1rem 40px 0` }}
+    css={{ width: `calc(100% - 80px) !important`, margin: `0.5rem 40px 0` }}
     bordered
     size="sm"
     {...props}
@@ -146,7 +149,7 @@ const Content = ({ node }) => {
               <Anchor name={name} className="text-muted">
                 {humanName}
               </Anchor>
-              {node.heading ? <span>{node.heading.text}</span> : <></>}
+              {node.heading ? <Heading>{node.heading.text}</Heading> : <></>}
               {childContent}
             </OrderedList.Item>
           );

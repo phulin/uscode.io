@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 const OrderedList = styled.ol({
   listStyle: `none`,
   display: `block`,
+  width: `100%`,
   marginBottom: `-0.5rem`,
   marginTop: 0,
   paddingInlineStart: 0,

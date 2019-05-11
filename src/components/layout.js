@@ -57,7 +57,7 @@ class Layout extends React.Component {
               /*fontFamily: `"Open Sans", sans-serif`,*/
               hyphens: `auto`,
             },
-            "main": {
+            main: {
               position: `relative`,
             },
             ".p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
@@ -65,6 +65,9 @@ class Layout extends React.Component {
               "@media (max-width: 767.98px)": {
                 marginLeft: `20px`,
               },
+            },
+            "li .p.indent1, li .p.indent2, li .p.indent3, li .p.indent4, li .p.indent5, li .p.indent6": {
+              marginLeft: 0,
             },
           }}
         />
@@ -80,11 +83,12 @@ class Layout extends React.Component {
             <small className="text-muted">
               <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
               {new Date().getFullYear()} Patrick Hulin. Derived from data
-              provided by the{" "}
+              provided by the{` `}
               <a href="http://uscode.house.gov/">
                 US House Office of the Law Revision Counsel
               </a>
-              ; all content should be in the public domain.
+              ; all content should be in the public domain. I make no warranty
+              as to accuracy or recency of this information.
             </small>
           </footer>
         </Container>
