@@ -50,8 +50,5 @@
   },
   "bugs": {
     "url": "https://github.com/phulin/uscode.io/issues"
-  },
-  "dependencies": {
-    "source-map-explorer": "^1.8.0"
   }
 }
