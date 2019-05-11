@@ -5,6 +5,9 @@ import { Link } from "gatsby";
 import flatMap from "lodash/flatMap";
 import zip from "lodash/zip";
 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+
 import { SectionContext } from "./section";
 
 Object.fromEntries = iterable =>
@@ -75,7 +78,21 @@ const TextFragment = ({ type, text, groups }) => {
     // eslint-disable-next-line react/prop-types
     const consumer = ({ breadcrumbs }) => {
       const breadcrumb = breadcrumbs.find(bc => bc.level === level);
-      return breadcrumb ? <Link to={breadcrumb.slug}>{text}</Link> : text;
+      return breadcrumb ? (
+        <OverlayTrigger
+          key={breadcrumb.slug}
+          placement="bottom"
+          overlay={
+            <Tooltip>
+              {breadcrumb.humanLevel} {breadcrumb.number}: {breadcrumb.heading}
+            </Tooltip>
+          }
+        >
+          <Link to={breadcrumb.slug}>{text}</Link>
+        </OverlayTrigger>
+      ) : (
+        text
+      );
     };
     return <SectionContext.Consumer>{consumer}</SectionContext.Consumer>;
   } else if (type === `ref-section`) {
