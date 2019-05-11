@@ -69,6 +69,21 @@ class Layout extends React.Component {
             "li .p.indent1, li .p.indent2, li .p.indent3, li .p.indent4, li .p.indent5, li .p.indent6": {
               marginLeft: 0,
             },
+            "@media print": {
+              "*": {
+                color: `black !important`,
+                backgroundColor: `white !important`,
+              },
+              a: {
+                textDecoration: `none !important`,
+              },
+              "a[name]": {
+                display: `none`,
+              },
+              ".container": {
+                maxWidth: `max-content`,
+              },
+            },
           }}
         />
         <Theme theme={theme} />
@@ -81,14 +96,27 @@ class Layout extends React.Component {
           <main>{children}</main>
           <footer style={{ marginTop: `2rem`, marginBottom: `0.5rem` }}>
             <small className="text-muted">
-              <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
-              {new Date().getFullYear()} Patrick Hulin. Derived from data
-              provided by the{` `}
-              <a href="http://uscode.house.gov/">
-                US House Office of the Law Revision Counsel
-              </a>
-              ; all content should be in the public domain. I make no warranty
-              as to accuracy or recency of this information.
+              <span className="d-print-none">
+                <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
+                {new Date().getFullYear()} Patrick Hulin. Derived from data
+                provided by the{" "}
+                <a href="http://uscode.house.gov/">
+                  US House Office of the Law Revision Counsel
+                </a>
+                ; all content should be in the public domain. I make no warranty
+                as to accuracy, recency, or any other aspect of this
+                information.{" "}
+              </span>
+              <span>
+                Based on{" "}
+                <a href="http://uscode.house.gov/currency/currency.shtml">
+                  data through Pub. L. No. 116-16 (Apr. 18, 2019)
+                </a>
+                .
+              </span>
+              <span className="d-none d-print-inline">
+                {" "}Printed from uscode.io.
+              </span>
             </small>
           </footer>
         </Container>
