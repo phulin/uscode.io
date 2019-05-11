@@ -4,6 +4,8 @@ import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
+import Table from "react-bootstrap/Table";
+
 import Anchor from "./anchor";
 import OrderedList from "./ordered-list";
 import PageHeading from "./page-heading";
@@ -27,15 +29,42 @@ const textLevels = new Set([
   `subsubitem`,
 ]);
 
+const SectionTable = ({ children, ...props }) => (
+  <Table
+    css={{ width: `calc(100% - 80px)`, margin: `1rem 40px 0` }}
+    bordered
+    size="sm"
+    {...props}
+  >
+    {children}
+  </Table>
+);
+
+SectionTable.propTypes = {
+  children: PropTypes.any.isRequired,
+};
+
 const tagMap = new Map(
   Object.entries({
-    p: `p`,
+    p: `div`,
     note: `p`,
     chapeau: Chapeau,
     date: `span`,
     content: `span`,
+    table: SectionTable,
   })
 );
+
+const literalTags = new Set([
+  `table`,
+  `colgroup`,
+  `col`,
+  `thead`,
+  `tbody`,
+  `tr`,
+  `th`,
+  `td`,
+]);
 
 const hiddenTags = new Set([`note`]);
 
@@ -91,6 +120,9 @@ const Content = ({ node }) => {
         {childContent}
       </Tag>
     );
+  } else if (literalTags.has(node.name)) {
+    const Tag = node.name;
+    return <Tag>{childContent.length ? childContent : undefined}</Tag>;
   } else if (node.name === `ref` && node.attributes.href) {
     const href = node.attributes.href;
     const match = href.match(/\/us\/usc\/t([0-9]+)\/s([0-9a-zA-Z\-.]+)\/(.*)/);
@@ -111,7 +143,9 @@ const Content = ({ node }) => {
           const humanName = `(${elements.join(`)(`)})`;
           return (
             <OrderedList.Item seq={node.num.text}>
-              <Anchor name={name} className="text-muted">{humanName}</Anchor>
+              <Anchor name={name} className="text-muted">
+                {humanName}
+              </Anchor>
               {node.heading ? <span>{node.heading.text}</span> : <></>}
               {childContent}
             </OrderedList.Item>
@@ -148,7 +182,7 @@ const Section = ({ breadcrumbs, contents }) => {
       <Content node={contents} />
     </SectionContext.Provider>
   );
-}
+};
 
 Section.propTypes = {
   breadcrumbs: PropTypes.array.isRequired,
