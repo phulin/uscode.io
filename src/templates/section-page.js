@@ -20,9 +20,16 @@ const SectionPage = ({ data }) => {
   const cite = `${title.number} U.S.C. § ${section.number}`;
   const pageTitle = `${cite}: ${section.heading}`;
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
-    }>
+    <Layout
+      breadcrumbs={
+        <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
+      }
+      navs={{
+        PDF:
+          `https://www.govinfo.gov/link/uscode/${title.number}` +
+          `/${section.number}?link-type=pdf&type=usc`,
+      }}
+    >
       <SEO
         title={pageTitle}
         keywords={[`uscode`, `usc`, `statute`, `law`, cite, section.heading]}
