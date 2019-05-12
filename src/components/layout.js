@@ -101,7 +101,7 @@ class Layout extends React.Component {
             onToggleNightMode={this.onToggleNightMode}
           />
           <main>{children}</main>
-          <footer style={{ marginTop: `2rem`, marginBottom: `0.5rem` }}>
+          <footer className="mt-4 mb-1">
             <small className="text-muted">
               <span className="d-print-none">
                 <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}

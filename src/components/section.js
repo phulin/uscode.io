@@ -25,6 +25,13 @@ const FullDiv = styled.div({
   width: `100%`,
 });
 
+const MarginDiv = styled(FullDiv)({
+  marginTop: `0.5rem`,
+  "+ ol": {
+    marginTop: 0,
+  },
+});
+
 const textLevels = new Set([
   `subsection`,
   `paragraph`,
@@ -36,7 +43,7 @@ const textLevels = new Set([
   `subsubitem`,
 ]);
 
-const SectionTable = ({ children, ...props }) => (
+const SectionTable = ({ ...props }) => (
   <Table
     css={{
       width: `auto !important`,
@@ -46,14 +53,8 @@ const SectionTable = ({ children, ...props }) => (
     bordered
     size="sm"
     {...props}
-  >
-    {children}
-  </Table>
+  />
 );
-
-SectionTable.propTypes = {
-  children: PropTypes.any.isRequired,
-};
 
 const tagMap = new Map(
   Object.entries({
@@ -63,12 +64,7 @@ const tagMap = new Map(
     date: `span`,
     content: `span`,
     table: SectionTable,
-    continuation: styled(FullDiv)({
-      marginTop: `0.5rem`,
-      "+ ol": {
-        marginTop: 0,
-      },
-    }),
+    continuation: MarginDiv,
   })
 );
 
@@ -203,9 +199,15 @@ const Section = ({ breadcrumbs, contents }) => {
       }}
     >
       <PageHeading>
+        <span className="d-none d-print-inline">
+          {breadcrumbs[0].number} U.S.C.{" "}
+        </span>
         {contents.num.text} {contents.heading.text}
       </PageHeading>
       <Content node={contents} />
+      <FullDiv margin className="text-muted mt-3">
+        <em><Content node={contents.sourceCredit} /></em>
+      </FullDiv>
     </SectionContext.Provider>
   );
 };
