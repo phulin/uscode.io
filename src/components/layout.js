@@ -71,6 +71,11 @@ class Layout extends React.Component {
             "li .p.indent1, li .p.indent2, li .p.indent3, li .p.indent4, li .p.indent5, li .p.indent6": {
               marginLeft: 0,
             },
+            "@media (min-width: 768px)": {
+              ".container": {
+                padding: `0 60px`,
+              },
+            },
             "@media print": {
               "*": {
                 color: `black !important`,
