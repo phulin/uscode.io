@@ -50,7 +50,7 @@ function usml2json(node) {
     );
 
     // Remove nodes like num/heading/notes.
-    const nonContentTags = [`num`, `heading`, `notes`, `sourceCredit`];
+    const nonContentTags = [`num`, `heading`];
     const children = nonemptyChildren.filter(
       child => child.type !== `element` || !nonContentTags.includes(child.name)
     );

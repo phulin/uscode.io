@@ -135,7 +135,7 @@ class Layout extends React.Component {
 
 Layout.propTypes = {
   breadcrumbs: PropTypes.node,
-  navs: PropTypes.array,
+  navs: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -143,7 +143,7 @@ Layout.propTypes = {
 };
 
 Layout.defaultProps = {
-  navs: [],
+  navs: {},
 };
 
 export default Layout;

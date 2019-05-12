@@ -9,7 +9,7 @@ const Anchor = styled.a({
   fontSize: `smaller`,
   userSelect: `none`,
 
-  "& + ol > li:first-child > div > a": {
+  "& + ol > li:first-of-type > div > a": {
     display: `none`,
   },
 

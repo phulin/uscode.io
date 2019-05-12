@@ -56,15 +56,29 @@ const SectionTable = ({ ...props }) => (
   />
 );
 
+const SourceCredit = props => (
+  <MarginDiv>
+    <small {...props} />
+  </MarginDiv>
+);
+
+const Note = ({ heading, ...props }) => (
+  <MarginDiv>
+    <h6>{heading.text}</h6>
+    <small {...props} />
+  </MarginDiv>
+);
+
 const tagMap = new Map(
   Object.entries({
     p: FullDiv,
-    note: FullDiv,
     chapeau: Chapeau,
     date: `span`,
     content: `span`,
     table: SectionTable,
     continuation: MarginDiv,
+    sourceCredit: SourceCredit,
+    quotedContent: MarginDiv,
   })
 );
 
@@ -78,8 +92,6 @@ const literalTags = new Set([
   `th`,
   `td`,
 ]);
-
-const hiddenTags = new Set([`note`]);
 
 const trimTags = new Set([`chapeau`, `content`]);
 const Content = ({ node }) => {
@@ -124,12 +136,8 @@ const Content = ({ node }) => {
 
   if (tagMap.has(node.name)) {
     const Tag = tagMap.get(node.name);
-    const style = hiddenTags.has(node.name) ? { display: `none` } : {};
     return (
-      <Tag
-        className={`${node.name} ${node.attributes.class || ``}`}
-        css={style}
-      >
+      <Tag className={`${node.name} ${node.attributes.class || ``}`}>
         {childContent}
       </Tag>
     );
@@ -151,14 +159,20 @@ const Content = ({ node }) => {
     return (
       <SectionContext.Consumer>
         {({ title, section }) => {
-          const name = identifier.replace(`/us/usc/t${title}/s${section}/`, ``);
+          const name = identifier
+            ? identifier.replace(`/us/usc/t${title}/s${section}/`, ``)
+            : ``;
           const elements = name.split(`/`);
           const humanName = `(${elements.join(`)(`)})`;
           return (
             <OrderedList.Item seq={node.num.text}>
-              <Anchor name={name} className="text-muted">
-                {humanName}
-              </Anchor>
+              {identifier ? (
+                <Anchor name={name} className="text-muted">
+                  {humanName}
+                </Anchor>
+              ) : (
+                ``
+              )}
               {node.heading ? (
                 <Heading>
                   {node.heading.text ||
@@ -174,6 +188,15 @@ const Content = ({ node }) => {
           );
         }}
       </SectionContext.Consumer>
+    );
+  } else if (node.name === `note`) {
+    return (
+      <MarginDiv>
+        <small>
+          {node.heading ? <b>{node.heading.text}</b> : ``}
+          {childContent}
+        </small>
+      </MarginDiv>
     );
   } else {
     return <>{childContent}</>;
@@ -205,9 +228,6 @@ const Section = ({ breadcrumbs, contents }) => {
         {contents.num.text} {contents.heading.text}
       </PageHeading>
       <Content node={contents} />
-      <FullDiv margin className="text-muted mt-3">
-        <em><Content node={contents.sourceCredit} /></em>
-      </FullDiv>
     </SectionContext.Provider>
   );
 };

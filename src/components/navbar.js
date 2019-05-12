@@ -32,9 +32,7 @@ const StyledRBNavbar = styled(RBNavbar)({
   padding: `0.5rem 1rem !important`,
 });
 
-const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => {
-  console.log(navs);
-  return (
+const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => (
   <StyledRBNavbar bg="light" expand="md">
     <RBNavbar.Brand className={breadcrumbs ? `d-md-none` : ``}>
       uscode.io
@@ -58,17 +56,16 @@ const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => {
     </RBNavbar.Collapse>
   </StyledRBNavbar>
 );
-}
 
 Navbar.propTypes = {
   breadcrumbs: PropTypes.node.isRequired,
-  navs: PropTypes.array,
+  navs: PropTypes.object,
   onToggleNightMode: PropTypes.func.isRequired,
   nightMode: PropTypes.bool.isRequired,
 };
 
 Navbar.defaultProps = {
-  navs: [],
+  navs: {},
 };
 
 export default Navbar;
