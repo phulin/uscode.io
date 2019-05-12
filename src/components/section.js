@@ -38,7 +38,11 @@ const textLevels = new Set([
 
 const SectionTable = ({ children, ...props }) => (
   <Table
-    css={{ width: `auto !important`, maxWidth: `calc(100% - 80px) !important`, margin: `0.5rem 40px 0` }}
+    css={{
+      width: `auto !important`,
+      maxWidth: `calc(100% - 80px) !important`,
+      margin: `0.5rem 40px 0`,
+    }}
     bordered
     size="sm"
     {...props}
@@ -123,7 +127,7 @@ const Content = ({ node }) => {
     return (
       <Tag
         className={`${node.name} ${node.attributes.class || ``}`}
-        style={style}
+        css={style}
       >
         {childContent}
       </Tag>
@@ -154,7 +158,16 @@ const Content = ({ node }) => {
               <Anchor name={name} className="text-muted">
                 {humanName}
               </Anchor>
-              {node.heading ? <Heading>{node.heading.text}</Heading> : <></>}
+              {node.heading ? (
+                <Heading>
+                  {node.heading.text ||
+                    node.heading.childNodes.map((c, i) => (
+                      <Content key={i} node={c} />
+                    ))}
+                </Heading>
+              ) : (
+                <></>
+              )}
               {childContent}
             </OrderedList.Item>
           );
