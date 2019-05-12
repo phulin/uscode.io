@@ -60,11 +60,11 @@ class Layout extends React.Component {
             main: {
               position: `relative`,
             },
-            ".p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
+            ".ml40, .p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
               marginLeft: `40px`,
             },
             "@media (max-width: 767.98px)": {
-              ".p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
+              ".ml40, .p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
                 marginLeft: `20px`,
               },
             },

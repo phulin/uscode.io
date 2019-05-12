@@ -4,7 +4,9 @@ import { Link } from "gatsby";
 
 import styled from "@emotion/styled";
 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Table from "react-bootstrap/Table";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import Anchor from "./anchor";
 import OrderedList from "./ordered-list";
@@ -204,8 +206,28 @@ const Content = ({ node }) => {
         }}
       </SectionContext.Consumer>
     );
+  } else if (
+    node.name === `ref` &&
+    node.attributes.class.includes(`footnoteRef`)
+  ) {
+    return <></>;
   } else if (node.name === `note`) {
-    return <Note {...node}>{childContent}</Note>;
+    if (node.attributes.type === `footnote`) {
+      return (
+        <OverlayTrigger
+          placement="top"
+          overlay={
+            <Tooltip css={{ a: { color: `white !important` } }}>
+              {childContent}
+            </Tooltip>
+          }
+        >
+          <sup>{node.num.text}</sup>
+        </OverlayTrigger>
+      );
+    } else {
+      return <Note heading={node.heading}>{childContent}</Note>;
+    }
   } else {
     return <>{childContent}</>;
   }
