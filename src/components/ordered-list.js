@@ -7,24 +7,15 @@ const OrderedList = styled.ol({
   listStyle: `none`,
   display: `block`,
   width: `100%`,
-  marginBottom: `-0.5rem`,
-  marginTop: 0,
+  marginTop: `-0.5rem`,
   paddingInlineStart: 0,
-  "@media (max-width: 767.98px)": {
-    paddingInlineStart: 0, // `20px`,
-  },
-  "& + .text": {
-    marginTop: `0.5rem`,
-  },
-  "continuation + &": {
-    marginTop: `0.5rem`,
-  },
+  paddingLeft: 0,
 });
 
 const StyledLi = styled.li({
   display: `flex`,
   alignItems: `flex-start`,
-  paddingBottom: `0.5rem`,
+  paddingTop: `0.5rem`,
   "> .numeral": {
     flexShrink: 0,
     textAlign: `right`,

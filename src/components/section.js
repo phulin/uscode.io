@@ -63,7 +63,12 @@ const tagMap = new Map(
     date: `span`,
     content: `span`,
     table: SectionTable,
-    continuation: styled(FullDiv)({ marginTop: `0.5rem` }),
+    continuation: styled(FullDiv)({
+      marginTop: `0.5rem`,
+      "+ ol": {
+        marginTop: 0,
+      },
+    }),
   })
 );
 
