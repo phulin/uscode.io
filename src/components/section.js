@@ -63,11 +63,26 @@ const SourceCredit = props => (
 );
 
 const Note = ({ heading, ...props }) => (
-  <MarginDiv>
-    <h6>{heading.text}</h6>
-    <small {...props} />
+  <MarginDiv
+    css={{
+      ".p": { marginBottom: `0.3rem` },
+      ".quotedContent:not(.indent0)": {
+        marginLeft: `40px`,
+      },
+    }}
+  >
+    <small>
+      {heading ? <b>{heading.text}</b> : ``}
+      <span {...props} />
+    </small>
   </MarginDiv>
 );
+
+Note.propTypes = {
+  heading: PropTypes.shape({
+    text: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const tagMap = new Map(
   Object.entries({
@@ -190,14 +205,7 @@ const Content = ({ node }) => {
       </SectionContext.Consumer>
     );
   } else if (node.name === `note`) {
-    return (
-      <MarginDiv>
-        <small>
-          {node.heading ? <b>{node.heading.text}</b> : ``}
-          {childContent}
-        </small>
-      </MarginDiv>
-    );
+    return <Note {...node}>{childContent}</Note>;
   } else {
     return <>{childContent}</>;
   }
