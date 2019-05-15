@@ -28,7 +28,7 @@ const StyledLi = styled.li({
   },
   "@media (max-width: 767.98px)": {
     "> .numeral": {
-      width: `20px`,
+      marginLeft: `-20px`,
       paddingRight: `0.2rem`,
       fontSize: `smaller`,
       position: `relative`,

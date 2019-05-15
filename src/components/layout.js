@@ -9,11 +9,21 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Global } from "@emotion/core";
+import styled from "@emotion/styled";
 
-import Container from "react-bootstrap/Container";
+import RBContainer from "react-bootstrap/Container";
 
 import Navbar from "./navbar";
 import Theme from "./theme";
+
+const Container = styled(RBContainer)({
+  "@media (max-width: 767.98px)": {
+    padding: `0 10px !important`,
+  },
+  "@media (min-width: 768px)": {
+    padding: `0 60px !important`,
+  },
+});
 
 class Layout extends React.Component {
   constructor(props) {
@@ -34,7 +44,7 @@ class Layout extends React.Component {
     }
   }
 
-  onToggleNightMode(e) {
+  onToggleNightMode() {
     this.setState(({ nightMode, ...state }) => {
       // eslint-disable-next-line no-undef
       window.localStorage.setItem(`nightMode`, !nightMode);
@@ -61,17 +71,12 @@ class Layout extends React.Component {
             ".ml40, .p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
               marginLeft: `40px`,
             },
-            "@media (max-width: 767.98px)": {
-              ".ml40, .p.indent1, .p.indent2, .p.indent3, .p.indent4, .p.indent5, .p.indent6": {
-                marginLeft: `20px`,
-              },
-            },
             "li .p.indent1, li .p.indent2, li .p.indent3, li .p.indent4, li .p.indent5, li .p.indent6": {
               marginLeft: 0,
             },
-            "@media (min-width: 768px)": {
-              ".container": {
-                padding: `0 60px !important`,
+            "@media (max-width: 767.98px)": {
+              ".ml40, li .p.indent1, li .p.indent2, li .p.indent3, li .p.indent4, li .p.indent5, li .p.indent6": {
+                marginLeft: `20px`,
               },
             },
             "@media print": {

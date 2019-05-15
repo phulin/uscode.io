@@ -69,7 +69,10 @@ const Note = ({ heading, ...props }) => (
     css={{
       ".p": { marginBottom: `0.3rem` },
       ".quotedContent:not(.indent0)": {
-        marginLeft: `40px`,
+        paddingLeft: `40px`,
+        "@media (max-width: 767.98px)": {
+          paddingLeft: `20px`,
+        },
       },
     }}
   >

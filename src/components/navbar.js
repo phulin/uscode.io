@@ -30,6 +30,9 @@ const SmallTogglerButton = styled(SmallButton)({
 
 const StyledRBNavbar = styled(RBNavbar)({
   padding: `0.5rem 1rem !important`,
+  "@media (max-width: 767.98px)": {
+    margin: `0 -10px`,
+  },
 });
 
 const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => (
