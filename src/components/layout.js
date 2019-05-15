@@ -83,10 +83,10 @@ class Layout extends React.Component {
                 textDecoration: `none !important`,
               },
               "a[name]": {
-                display: `none`,
+                display: `none !important`,
               },
               ".container": {
-                maxWidth: `max-content`,
+                maxWidth: `max-content !important`,
               },
             },
           }}
