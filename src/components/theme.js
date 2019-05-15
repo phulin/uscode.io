@@ -3,21 +3,22 @@ import PropTypes from "prop-types";
 
 import Helmet from "react-helmet";
 
+import "../../../bootswatch/dist/flatly/bootstrap.min.css";
+
 class Theme extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = { initialized: false };
+  }
 
-    if (typeof document !== `undefined`) {
-      const link = this.createStylesheet();
-      link.onload = () => this.setState({ initialized: true });
-    }
+  componentDidMount() {
+    const link = {} // this.createStylesheet();
+    link.onload = () => this.setState({ initialized: true });
   }
 
   href() {
-    const theme = this.props.theme;
-    return `https://cdn.jsdelivr.net/gh/phulin/bootswatch@7915d440/dist/${theme}/bootstrap.min.css`;
+    return `/${this.props.theme}/bootstrap.min.css`;
   }
 
   createStylesheet() {
@@ -47,14 +48,14 @@ class Theme extends React.Component {
       return;
     }
 
-    const link = this.createStylesheet();
+    const link = {} // this.createStylesheet();
     link.onload = () => {
       // Props might have changed - be careful.
       const { theme } = this.props;
       this.setState({ initialized: true });
       /* eslint-disable-next-line no-undef */
       const oldLinks = document.head.querySelectorAll(
-        `link:not([data-theme="${theme}"])`
+        `link[data-theme]:not([data-theme="${theme}"])`
       );
       for (const oldLink of oldLinks) {
         oldLink.parentNode.removeChild(oldLink);
@@ -64,7 +65,9 @@ class Theme extends React.Component {
 
   render() {
     return this.state.initialized ? <></> :
-      <link rel="stylesheet" type="text/css" href={this.href()} />;
+      <Helmet>
+        *<link rel="stylesheet" type="text/css" href={this.href()} data-theme={this.props.theme} />*
+      </Helmet>;
   }
 }
 

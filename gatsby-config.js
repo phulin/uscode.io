@@ -49,5 +49,12 @@ module.exports = {
     },
     `gatsby-plugin-netlify`,
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-purgecss`,
+      options: {
+        develop: true,
+        whitelistPatterns: /^navbar/,
+      },
+    },
   ],
 }
