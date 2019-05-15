@@ -35,7 +35,6 @@ class Layout extends React.Component {
   }
 
   onToggleNightMode(e) {
-    e.preventDefault();
     this.setState(({ nightMode, ...state }) => {
       // eslint-disable-next-line no-undef
       window.localStorage.setItem(`nightMode`, !nightMode);
@@ -72,7 +71,7 @@ class Layout extends React.Component {
             },
             "@media (min-width: 768px)": {
               ".container": {
-                padding: `0 60px`,
+                padding: `0 60px !important`,
               },
             },
             "@media print": {

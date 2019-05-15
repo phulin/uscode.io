@@ -53,7 +53,7 @@ module.exports = {
       resolve: `gatsby-plugin-purgecss`,
       options: {
         develop: true,
-        whitelistPatterns: /^navbar/,
+        whitelistPatterns: [/^nav-/, /^navbar-/, /^bg-/],
       },
     },
   ],
