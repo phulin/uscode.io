@@ -53,8 +53,7 @@ class Layout extends React.Component {
       <>
         <Global
           styles={{
-            "*": {
-              /*fontFamily: `"Open Sans", sans-serif`,*/
+            body: {
               hyphens: `auto`,
             },
             main: {
