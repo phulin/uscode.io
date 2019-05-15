@@ -226,7 +226,15 @@ const Content = ({ node }) => {
         </OverlayTrigger>
       );
     } else {
-      return <Note heading={node.heading}>{childContent}</Note>;
+      /*
+       * Only render notes in the browser. This should make initial load much
+       * faster.
+       */
+      if (typeof document !== `undefined`) {
+        return <Note heading={node.heading}>{childContent}</Note>;
+      } else {
+        return <></>;
+      }
     }
   } else {
     return <>{childContent}</>;
