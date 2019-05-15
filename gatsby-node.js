@@ -129,7 +129,8 @@ class Visitor {
   visitSectionGroup(parent, group, breadcrumbs) {
     const number = group.get(`.//uslm:num/@value`, NS).value();
     const heading = this.getHeading(group);
-    const identifier = group.attr(`identifier`).value();
+    const identifierAttr = group.attr(`identifier`);
+    const identifier = identifierAttr ? identifierAttr.value() : ``;
     const level = group.name();
     const humanLevel = `${level.charAt(0).toUpperCase()}${level.slice(1)}`;
     const statusAttr = group.attr(`status`);
