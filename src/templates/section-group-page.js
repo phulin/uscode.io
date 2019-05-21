@@ -6,16 +6,45 @@ import Breadcrumbs from "../components/breadcrumbs";
 import Layout from "../components/layout";
 import PageHeading from "../components/page-heading";
 import SectionOrGroup from "../components/section-or-group";
+import SEO from "../components/seo";
 
 const SectionGroupPage = ({ data }) => {
   const { humanLevel, number, heading, breadcrumbs, childNodes } = data.group;
+  const humanBreadcrumbs = breadcrumbs.map(
+    bc => `${bc.humanLevel} ${bc.number}`
+  );
+  const title = breadcrumbs.length > 0 ? breadcrumbs[0].number : number;
+  const pageTitle =
+    breadcrumbs.length > 0
+      ? `${title} U.S.C., ${humanBreadcrumbs.join(`, `)}, ` +
+        `${humanLevel} ${number}`
+      : `${title} U.S.C.: ${heading}`;
   return (
     <Layout
       title={`${humanLevel} ${number}: ${heading}`}
       breadcrumbs={
-        <Breadcrumbs breadcrumbs={breadcrumbs} current={{ humanLevel, number }} />
+        <Breadcrumbs
+          breadcrumbs={breadcrumbs}
+          current={{ humanLevel, number }}
+        />
       }
     >
+      <SEO
+        title={pageTitle}
+        keywords={[
+          `uscode`,
+          `usc`,
+          `statute`,
+          `law`,
+          `${humanLevel} ${number}`,
+          heading,
+        ]}
+        description={
+          `${title} United States Code, ` +
+          humanBreadcrumbs.join(`, `) +
+          `, ${humanLevel} ${number}: ${heading}`
+        }
+      />
       <PageHeading>
         {humanLevel} {number}: {heading}
       </PageHeading>
