@@ -8,6 +8,7 @@ const Anchor = styled.a({
   textAlign: `right`,
   fontSize: `smaller`,
   userSelect: `none`,
+  visibility: `hidden`,
 
   "& + ol > li:first-of-type > div > a": {
     display: `none`,
@@ -17,11 +18,7 @@ const Anchor = styled.a({
     display: `none`,
   },
 
-  /*".container:hover &": {
-    visibility: `hidden`,
-  },*/
-
-  ":hover": {
+  "div[data-hover-hide-links]:hover + .container &": {
     visibility: `visible !important`,
   },
 

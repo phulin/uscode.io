@@ -11,17 +11,33 @@ import PropTypes from "prop-types";
 import { Global } from "@emotion/core";
 import styled from "@emotion/styled";
 
-import RBContainer from "react-bootstrap/Container";
+import Container from "react-bootstrap/Container";
 
 import Navbar from "./navbar";
 import Theme from "./theme";
 
-const Container = styled(RBContainer)({
+const TextContainer = styled(Container)({
+  margin: `0 !important`,
   "@media (max-width: 767.98px)": {
     padding: `0 10px !important`,
   },
   "@media (min-width: 768px)": {
     padding: `0 60px !important`,
+  },
+});
+
+const Margins = styled.div({
+  display: `flex`,
+});
+
+const HoverGutter = styled.div({
+  flexGrow: 1,
+  zIndex: 1000,
+  "@media (max-width: 767.98px)": {
+    margin: `0 -10px !important`,
+  },
+  "@media (min-width: 768px)": {
+    margin: `0 -60px !important`,
   },
 });
 
@@ -97,40 +113,43 @@ class Layout extends React.Component {
           }}
         />
         <Theme theme={theme} />
-        <Container>
-          <Navbar
-            breadcrumbs={breadcrumbs}
-            navs={navs}
-            nightMode={this.state.nightMode}
-            onToggleNightMode={this.onToggleNightMode}
-          />
-          <main>{children}</main>
-          <footer className="mt-4 mb-1">
-            <small className="text-muted">
-              <span className="d-print-none">
-                <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
-                {new Date().getFullYear()} Patrick Hulin. Derived from data
-                provided by the{" "}
-                <a href="http://uscode.house.gov/">
-                  US House Office of the Law Revision Counsel
-                </a>
-                ; all content should be in the public domain. I make no warranty
-                as to accuracy, recency, or any other aspect of this
-                information.{" "}
-              </span>
-              <span>
-                Based on{" "}
-                <a href="http://uscode.house.gov/currency/currency.shtml">
-                  data through Pub. L. No. 116-16 (Apr. 18, 2019)
-                </a>
-                .
-              </span>
-              <span className="d-none d-print-inline">
-                {" "}Printed from uscode.io.
-              </span>
-            </small>
-          </footer>
-        </Container>
+        <Margins>
+          <HoverGutter data-hover-hide-links />
+          <TextContainer>
+            <Navbar
+              breadcrumbs={breadcrumbs}
+              nightMode={this.state.nightMode}
+              onToggleNightMode={this.onToggleNightMode}
+            />
+            <main>{children}</main>
+            <footer className="mt-4 mb-1">
+              <small className="text-muted">
+                <span className="d-print-none">
+                  <a href="https://github.com/phulin/uscode.io">HTML layout</a> ©{" "}
+                  {new Date().getFullYear()} Patrick Hulin. Derived from data
+                  provided by the{" "}
+                  <a href="http://uscode.house.gov/">
+                    US House Office of the Law Revision Counsel
+                  </a>
+                  ; all content should be in the public domain. I make no warranty
+                  as to accuracy, recency, or any other aspect of this
+                  information.{" "}
+                </span>
+                <span>
+                  Based on{" "}
+                  <a href="http://uscode.house.gov/currency/currency.shtml">
+                    data through Pub. L. No. 116-16 (Apr. 18, 2019)
+                  </a>
+                  .
+                </span>
+                <span className="d-none d-print-inline">
+                  {" "}Printed from uscode.io.
+                </span>
+              </small>
+            </footer>
+          </TextContainer>
+          <HoverGutter />
+        </Margins>
       </>
     );
   }
