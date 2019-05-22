@@ -24,11 +24,6 @@ const SectionPage = ({ data }) => {
       breadcrumbs={
         <Breadcrumbs breadcrumbs={breadcrumbs} current={currentBreadcrumb} />
       }
-      navs={{
-        PDF:
-          `https://www.govinfo.gov/link/uscode/${title.number}` +
-          `/${section.number}?link-type=pdf&type=usc`,
-      }}
     >
       <SEO
         title={pageTitle}

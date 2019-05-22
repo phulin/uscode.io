@@ -35,7 +35,7 @@ const StyledRBNavbar = styled(RBNavbar)({
   },
 });
 
-const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => (
+const Navbar = ({ breadcrumbs, nightMode, onToggleNightMode }) => (
   <StyledRBNavbar bg="light" expand="md">
     <RBNavbar.Brand className={breadcrumbs ? `d-md-none` : ``}>
       uscode.io
@@ -47,11 +47,6 @@ const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => (
     <RBNavbar.Collapse id="responsive-navbar-nav">
       {breadcrumbs}
       <Nav className="ml-auto">
-        {Object.entries(navs).map(([k, v]) => (
-          <Nav.Link key={v} href={v}>
-            {k}
-          </Nav.Link>
-        ))}
         <Nav.Link onClick={onToggleNightMode}>
           {nightMode ? "Day Mode" : "Night Mode"}
         </Nav.Link>
@@ -62,13 +57,8 @@ const Navbar = ({ breadcrumbs, navs, nightMode, onToggleNightMode }) => (
 
 Navbar.propTypes = {
   breadcrumbs: PropTypes.node.isRequired,
-  navs: PropTypes.object,
   onToggleNightMode: PropTypes.func.isRequired,
   nightMode: PropTypes.bool.isRequired,
-};
-
-Navbar.defaultProps = {
-  navs: {},
 };
 
 export default Navbar;

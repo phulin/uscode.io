@@ -13,6 +13,8 @@ import OrderedList from "./ordered-list";
 import PageHeading from "./page-heading";
 import Text from "./text";
 
+import "../css/open-iconic-bootstrap.min.css";
+
 export const SectionContext = React.createContext({});
 
 const Chapeau = styled.p({
@@ -254,10 +256,14 @@ Content.propTypes = {
 
 const Section = ({ breadcrumbs, contents }) => {
   const sectionNumber = contents.num.attributes.value;
+  const title = breadcrumbs[0].number;
+  const pdfLink =
+    `https://www.govinfo.gov/link/uscode/${title}` +
+    `/${sectionNumber}?link-type=pdf&type=usc`;
   return (
     <SectionContext.Provider
       value={{
-        title: breadcrumbs[0].number,
+        title,
         section: sectionNumber,
         breadcrumbs,
       }}
@@ -266,7 +272,10 @@ const Section = ({ breadcrumbs, contents }) => {
         <span className="d-none d-print-inline">
           {breadcrumbs[0].number} U.S.C.{" "}
         </span>
-        {contents.num.text} {contents.heading.text}
+        {contents.num.text} {contents.heading.text}{"   "}
+        <a href={pdfLink}>
+          <span className="oi oi-document small ml-2" title="PDF" aria-hidden="true"></span>
+        </a>
       </PageHeading>
       <Content node={contents} />
     </SectionContext.Provider>
