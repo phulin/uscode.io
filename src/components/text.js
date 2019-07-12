@@ -61,8 +61,11 @@ const spliceRegexAll = (nodeList, regex, type, groups) =>
 const addRefs = text => {
   let nodeList = [{ type: `text`, text, index: 0 }];
 
-  const sectionRegex = /section\s([0-9]+)(\(\w+\))*(?=[^\w\-(])(?! of the)( of this title)?/gi;
+  const sectionRegex = /section\s([0-9]+)(\(\w+\))*(?=[^\w\-(])(?! of the)(?!of Pub.)( of this title)?/gi;
   nodeList = spliceRegexAll(nodeList, sectionRegex, `ref-section`, [`section`]);
+
+  const sectionsRegex = /sections\s([0-9][0-9a-z-]+)-([0-9][0-9a-z-]+)(?! of the)/gi;
+  nodeList = spliceRegexAll(nodeList, sectionsRegex, `ref-section`, [`section`]);
 
   const levelsRegex = new RegExp(`this (${groupLevels.join("|")})`, `gi`);
   nodeList = spliceRegexAll(nodeList, levelsRegex, `ref-group`, [`level`]);
